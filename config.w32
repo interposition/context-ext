@@ -1,0 +1,7 @@
+ARG_ENABLE('context', 'context support', 'no');
+
+if (PHP_CONTEXT != 'no') {
+	AC_DEFINE('HAVE_CONTEXT', 1, 'context support enabled');
+
+	EXTENSION('context', 'context.c', null, '/DZEND_ENABLE_STATIC_TSRMLS_CACHE=1');
+}
