@@ -10,7 +10,6 @@ typedef struct{
     zend_vm_stack  	    	vm_stack;
     size_t         	    	vm_stack_page_size;
     uint32_t jit_trace_num; /* Used by tracing JIT to reference the currently running trace */
-
 } context;
 
 context *create_context();

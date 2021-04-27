@@ -29,6 +29,7 @@ static zend_object_handlers context_object_handlers;
 typedef struct {
 	context * ctx;
 	zval *bridge;
+	zend_execute_data * root;
 	zval closure;
     zend_object std;
 } context_zend_object;
@@ -183,7 +184,10 @@ ZEND_METHOD(Interposition_Context, __construct)
 	context * ctx = create_context();
 
 	push_function(ctx, f, ZEND_CALL_TOP_FUNCTION, NULL);
+
     push_function(ctx, func, ZEND_CALL_NESTED_FUNCTION | ZEND_CALL_CLOSURE | ZEND_CALL_DYNAMIC, object);
+	obj->root = ctx->current_execute_data;
+
 	GC_ADDREF(Z_COUNTED_P(closure));
 
     obj->ctx = ctx;
@@ -216,6 +220,7 @@ ZEND_METHOD(Interposition_Context, resume)
 
 
     obj->bridge = USED_RET() ? return_value : NULL;
+	obj->root->return_value = USED_RET() ? return_value : NULL;
 
 	current = obj;
 	REGISTER_IN_INTERRUPT
@@ -260,7 +265,9 @@ static zend_object * create_context_zend_object(zend_class_entry * class_entry)
 {
 	context_zend_object *internal = zend_object_alloc(sizeof(context_zend_object), class_entry);
 
-	internal->bridge = NULL;
+	internal->bridge 	 			 = NULL;
+	internal->root 	 = NULL;
+
     zend_object_std_init(&internal->std, class_entry);
     object_properties_init(&internal->std, class_entry);
 
