@@ -1,7 +1,7 @@
 # PHP Coroutines
 
-A simple extension that implements the functionality of the program in PHP.
-Designed for teaching the development of php extensions, and learning the core zend.
+A simple extension that implements the functionality of the coroutines in PHP.
+Designed for teaching the development of php extensions, and learning the zend core.
 
 The extension has no practical value - in php 8.1 will appear [fibers](https://wiki.php.net/rfc/fibers).
 
@@ -13,7 +13,8 @@ The extension has no practical value - in php 8.1 will appear [fibers](https://w
 - Can't define coroutine function with params.
 - Namespace used for extension.
 - Fixed stack size: 8kb.
-- Non-thread safe
+- Non-thread safe.
+- PHP 8.0.0 - minimum version.
 
 ## Installation
 
