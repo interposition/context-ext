@@ -335,8 +335,34 @@ Objects created in loop: 10000.
 └───────────┴──────────┴──────────┴──────────┘
 ```
 ### Problems
-In draft...
+## Cannot use suspend method in internal callback
+The following code will cause a coredump.
+```php
+<?php declare(strict_types=1);
+
+use Interposition\Context;
+
+$context = new Context(function () {
+    array_map(function () {
+        Context::suspend();
+    }, [1, 2]);
+});
+
+$context->resume();
+```
+### Object must live while the context is called
+The following code will cause a coredump.
+```php
+<?php declare(strict_types=1);
+
+use Interposition\Context;
+
+(new Context(function () {}))->resume();
+```
 ### More
 In draft...
 
 ### Changelog
+## 0.1.0
+- First version of the worked extension.
+- Basic tests.
