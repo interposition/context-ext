@@ -11,12 +11,15 @@ use Interposition\Context\Test\{CreateTest,
     ExecuteDepthTest2,
     ExecuteTest,
     ExecuteTest2,
-};
+    RealUseCaseTest,
+    RealUseCaseTest2};
 
 
-$runner = new Interposition\Context\Test\TestRunner(1000);
+$runner = new Interposition\Context\Test\TestRunner(100);
 
 $runner->addTest(
+    new RealUseCaseTest(1000),
+    new RealUseCaseTest2(1000),
     new ExecuteTest(1000),
     new ExecuteTest2(1000),
     new ExecuteDepthTest(1),
