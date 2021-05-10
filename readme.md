@@ -200,12 +200,34 @@ $context = new Context(function () {
 $context->resume();
 ```
 ### More
-In draft...
+The principle of operation is simple - for each coroutine, its own zend_vm stack is created. 
+Switching occurs through zend_interrupt_function, 
+since it is called between the execution of opcodes, 
+inside which we simply replace the stack. 
+Determining the end of the coroutine execution occurs through the registered opcode, 
+which is called by our handler. We place the function with this opcode at the very beginning of our stack,
+in the first frame. 
+We will get into it, and when throwing an exception,
+if it is not caught inside the coroutine. 
+I spied all this from [Dmitry Strogov](https://github.com/dstogov/fiber-ext), many thanks to him. 
+You might think that this is a clone of his repository, but no, 
+although I operated on it during development. 
+Much more work is done in my code during the creation of the stack, 
+and the placement of the frames in it, all of this is written by hand. 
+This decision was influenced by two points:
+
+- Most of the built-in functions work through EG.
+- I wanted to figure out on my own how it works.
+
+Used in development: gcc(compilation), gdb (debugging and learning the code), 
+valgrind (finding memory leaks, zane memory mgr - does not display errors under some circumstances).
+
+Also, I want to thank Nikita Popov for [his blog](https://www.npopov.com), which describes how the kernel works. 
 
 ### Changelog
 ## 0.1.1
--- Fix coredump when calling the resume method on the object that is destroyed before the context change.
--- Reality-based tests.
+- Fix coredump when calling the resume method on the object that is destroyed before the context change.
+- Reality-based tests.
 
 ## 0.1.0
 - First version of the worked extension.
