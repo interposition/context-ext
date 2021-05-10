@@ -10,7 +10,7 @@
 extern zend_module_entry context_module_entry;
 # define phpext_context_ptr &context_module_entry
 
-# define PHP_CONTEXT_VERSION "0.1.0"
+# define PHP_CONTEXT_VERSION "0.1.1"
 
 # if defined(ZTS) && defined(COMPILE_DL_CONTEXT)
 ZEND_TSRMLS_CACHE_EXTERN()
