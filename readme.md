@@ -219,8 +219,8 @@ This decision was influenced by two points:
 - Most of the built-in functions work through EG.
 - I wanted to figure out on my own how it works.
 
-Used in development: gcc(compilation), gdb (debugging and learning the code), 
-valgrind (finding memory leaks, zane memory mgr - does not display errors under some circumstances).
+Used in development: gcc (compilation), gdb (debugging and learning the code), 
+valgrind (finding memory leaks, zend memory mgr - does not display errors under some circumstances).
 
 Also, I want to thank Nikita Popov for [his blog](https://www.npopov.com), which describes how the kernel works. 
 
