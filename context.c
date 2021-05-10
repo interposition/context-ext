@@ -106,6 +106,7 @@ int trap_op_handler()
     }
 
     free_context_zend_object_internal_data(current);
+    GC_DELREF(&(current->std));
     current = NULL;
 
 	return ZEND_USER_OPCODE_ENTER;
@@ -125,6 +126,7 @@ static void context_interrupt_function(zend_execute_data *execute_data)
 		}else{
 			save_context(current->ctx);
 			set_context(primary);
+			GC_DELREF(&(current->std));
 			current = NULL;
 		}
 		FLUSH_INTERRUPT
@@ -206,7 +208,7 @@ ZEND_METHOD(Interposition_Context, resume)
 	current = obj;
 	REGISTER_IN_INTERRUPT
 
-
+    GC_ADDREF(&(obj->std));
 }
 
 ZEND_METHOD(Interposition_Context, finished)
