@@ -16,14 +16,12 @@ class GenContext
 
     public function resume(mixed $val = null): mixed
     {
-        if($this->started){
-            $this->generator->send($val);
-            $this->generator->next();
+        if(!$this->started){
+            $this->started = true;
+            return $this->generator->current();
         }
 
-        $this->started = true;
-
-        return $this->generator->current();
+        return $this->generator->send($val);
     }
 
     public function finished(): bool

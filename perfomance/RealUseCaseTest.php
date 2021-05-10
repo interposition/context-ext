@@ -7,20 +7,9 @@ use Interposition\Context;
 
 class RealUseCaseTest extends Test
 {
-    private int $count;
-
-    public function __construct(int $count)
-    {
-        if($count < 1){
-            throw new \InvalidArgumentException('Count must be above or equal 1.');
-        }
-
-        $this->count = $count;
-    }
-
     public function getName(): string
     {
-        return 'Real use test. Create object.';
+        return 'Real use test. Create object. Count: '.$this->count.'.';
     }
 
     public function getDescription(): string
@@ -30,27 +19,23 @@ class RealUseCaseTest extends Test
 
     public function callExt(): void
     {
-
         $count = $this->count;
-        while ($count){
+
+        while ($count--){
             $obj = new Context(function () {
                 Context::suspend();
             });
-
-            $count--;
         }
     }
 
     public function callGen(): void
     {
-
         $count = $this->count;
-        while ($count){
+
+        while ($count--){
             $obj = new GenContext((function (){
                 yield;
             })());
-
-            $count--;
         }
     }
 }

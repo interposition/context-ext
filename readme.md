@@ -24,7 +24,7 @@ Get from version control, compile and install
 git clone https://github.com/interposition/context-ext.git
 
 # optional
-git checkout 0.1.0
+git checkout 0.1.1
 
 cd context-ext
 phpize
@@ -147,191 +147,40 @@ Simple performance tests written, see: perfomance.php. Results:
 ```
 Tests iterations: 1000
 
-Test: Simple execute to end.
-Simple while cycle in inside. Execution in cycle.
-Generator: valid => next. Extension: finished => suspend.
-No variable exchange. Context switches: 1000.
-
-┌────────────────────────────────────────────┐
-|           | Min      | Max      | Avg      |
-|───────────|──────────|──────────|──────────|
-| Extension | 0.000279 | 0.003452 | 0.000353 |
-|───────────|──────────|──────────|──────────|
-| Generator | 0.000199 | 0.002813 | 0.000244 |
-|───────────|──────────|──────────|──────────|
-| (E/G)%    | 140.29%  | 122.72%  | 144.97%  |
-└────────────────────────────────────────────┘
-
-Test: Simple execute to end.
-Simple while cycle in inside. Execution in cycle.
-Generator: valid => next. Extension: finished => suspend.
-With the exchange of variables. Context switches: 1000.
-
-┌────────────────────────────────────────────┐
-|           | Min      | Max      | Avg      |
-|───────────|──────────|──────────|──────────|
-| Extension | 0.000392 | 0.002731 | 0.000474 |
-|───────────|──────────|──────────|──────────|
-| Generator | 0.000297 | 0.003332 | 0.000361 |
-|───────────|──────────|──────────|──────────|
-| (E/G)%    | 131.94%  | 81.96%   | 131.29%  |
-└────────────────────────────────────────────┘
-
-Test: Recursive execute to end.
-Recursive call test. Extension - recursive call function.
-Generator - recursive call generator with "yield from".
-Switch context on every level. No variable exchange. Levels: 1.
-
-┌────────────────────────────────────────────┐
-|           | Min      | Max      | Avg      |
-|───────────|──────────|──────────|──────────|
-| Extension | 0.000003 | 0.000037 | 0.000004 |
-|───────────|──────────|──────────|──────────|
-| Generator | 0.000003 | 0.002006 | 0.000007 |
-|───────────|──────────|──────────|──────────|
-| (E/G)%    | 100.00%  | 1.84%    | 57.12%   |
-└────────────────────────────────────────────┘
-
-Test: Recursive execute to end.
-Recursive call test. Extension - recursive call function.
-Generator - recursive call generator with "yield from".
-Switch context on every level. No variable exchange. Levels: 10.
-
-┌────────────────────────────────────────────┐
-|           | Min      | Max      | Avg      |
-|───────────|──────────|──────────|──────────|
-| Extension | 0.000006 | 0.000487 | 0.000008 |
-|───────────|──────────|──────────|──────────|
-| Generator | 0.000010 | 0.000079 | 0.000012 |
-|───────────|──────────|──────────|──────────|
-| (E/G)%    | 60.98%   | 617.22%  | 71.03%   |
-└────────────────────────────────────────────┘
-
-Test: Recursive execute to end.
-Recursive call test. Extension - recursive call function.
-Generator - recursive call generator with "yield from".
-Switch context on every level. No variable exchange. Levels: 100.
-
-┌────────────────────────────────────────────┐
-|           | Min      | Max      | Avg      |
-|───────────|──────────|──────────|──────────|
-| Extension | 0.000036 | 0.002694 | 0.000045 |
-|───────────|──────────|──────────|──────────|
-| Generator | 0.000071 | 0.002402 | 0.000092 |
-|───────────|──────────|──────────|──────────|
-| (E/G)%    | 50.84%   | 112.15%  | 49.43%   |
-└────────────────────────────────────────────┘
-
-Test: Recursive execute to end.
-Recursive call test. Extension - recursive call function.
-Generator - recursive call generator with "yield from".
-Switch context on every level.  With the exchange of variables. Levels: 1.
-
-┌────────────────────────────────────────────┐
-|           | Min      | Max      | Avg      |
-|───────────|──────────|──────────|──────────|
-| Extension | 0.000003 | 0.000036 | 0.000004 |
-|───────────|──────────|──────────|──────────|
-| Generator | 0.000003 | 0.000023 | 0.000004 |
-|───────────|──────────|──────────|──────────|
-| (E/G)%    | 100.00%  | 155.67%  | 104.11%  |
-└────────────────────────────────────────────┘
-
-Test: Recursive execute to end.
-Recursive call test. Extension - recursive call function.
-Generator - recursive call generator with "yield from".
-Switch context on every level. With the exchange of variables. Levels: 10.
-
-┌────────────────────────────────────────────┐
-|           | Min      | Max      | Avg      |
-|───────────|──────────|──────────|──────────|
-| Extension | 0.000007 | 0.000078 | 0.000009 |
-|───────────|──────────|──────────|──────────|
-| Generator | 0.000011 | 0.001937 | 0.000016 |
-|───────────|──────────|──────────|──────────|
-| (E/G)%    | 63.04%   | 4.02%    | 56.78%   |
-└────────────────────────────────────────────┘
-
-Test: Recursive execute to end.
-Recursive call test. Extension - recursive call function.
-Generator - recursive call generator with "yield from".
-Switch context on every level.  With the exchange of variables. Levels: 100.
-
-┌────────────────────────────────────────────┐
-|           | Min      | Max      | Avg      |
-|───────────|──────────|──────────|──────────|
-| Extension | 0.000046 | 0.001868 | 0.000057 |
-|───────────|──────────|──────────|──────────|
-| Generator | 0.000079 | 0.002521 | 0.000104 |
-|───────────|──────────|──────────|──────────|
-| (E/G)%    | 58.01%   | 74.10%   | 55.10%   |
-└────────────────────────────────────────────┘
-
-Test: Create instance.
-Create context obj vs create anonymous function. Objects created in loop: 10000.
-┌────────────────────────────────────────────┐
-|           | Min      | Max      | Avg      |
-|───────────|──────────|──────────|──────────|
-| Extension | 0.011884 | 0.019595 | 0.013698 |
-|───────────|──────────|──────────|──────────|
-| Generator | 0.002413 | 0.005433 | 0.002920 |
-|───────────|──────────|──────────|──────────|
-| (E/G)%    | 492.49%  | 360.66%  | 469.10%  |
-└────────────────────────────────────────────┘
-
-Test: Create instance.
-Create context obj vs create generator. Objects created in loop: 10000.
+Test: Real use test. Create object. Count: 1000.
+Generator wrapped.
 ┌───────────┬──────────┬──────────┬──────────┐
 |           | Min      | Max      | Avg      |
 |───────────|──────────|──────────|──────────|
-| Extension | 0.011775 | 0.061873 | 0.014947 |
+| Extension | 0.001676 | 0.005227 | 0.001932 |
 |───────────|──────────|──────────|──────────|
-| Generator | 0.006537 | 0.037087 | 0.008290 |
+| Generator | 0.001549 | 0.004789 | 0.001798 |
 |───────────|──────────|──────────|──────────|
-| (E/G)%    | 180.13%  | 166.83%  | 180.31%  |
+| (E/G)%    | 108.20%  | 109.15%  | 107.45%  |
 └───────────┴──────────┴──────────┴──────────┘
 
-Test: Create instance.
-Create context obj vs create anonymous function. Pass variable in use.
-Objects created in loop: 10000.
-
+Test: Real use test. Execute coroutine (cycle). Switches count: 1000.
+Generator wrapped.
 ┌───────────┬──────────┬──────────┬──────────┐
 |           | Min      | Max      | Avg      |
 |───────────|──────────|──────────|──────────|
-| Extension | 0.015596 | 0.053088 | 0.019060 |
+| Extension | 0.000552 | 0.003445 | 0.000646 |
 |───────────|──────────|──────────|──────────|
-| Generator | 0.004869 | 0.029522 | 0.006351 |
+| Generator | 0.000773 | 0.004107 | 0.000901 |
 |───────────|──────────|──────────|──────────|
-| (E/G)%    | 320.31%  | 179.83%  | 300.12%  |
+| (E/G)%    | 71.41%   | 83.88%   | 71.75%   |
 └───────────┴──────────┴──────────┴──────────┘
 
-Test: Create instance.
-Create context obj vs create generator.
-Pass variable in use. Objects created in loop: 10000.
-
+Test: Real use test. Execute coroutine, recursive, suspend every level, levels: 1000. Generator use "yield from".
+Generator wrapped.
 ┌───────────┬──────────┬──────────┬──────────┐
 |           | Min      | Max      | Avg      |
 |───────────|──────────|──────────|──────────|
-| Extension | 0.015301 | 0.099350 | 0.020127 |
+| Extension | 0.000650 | 0.003519 | 0.000758 |
 |───────────|──────────|──────────|──────────|
-| Generator | 0.009635 | 0.050150 | 0.012816 |
+| Generator | 0.001510 | 0.005424 | 0.001747 |
 |───────────|──────────|──────────|──────────|
-| (E/G)%    | 158.81%  | 198.11%  | 157.05%  |
-└───────────┴──────────┴──────────┴──────────┘
-
-Test: Create instance.
-Create context obj vs create generator.
-Pass variable in use to context, for generator - in func argument.
-Objects created in loop: 10000.
-
-┌───────────┬──────────┬──────────┬──────────┐
-|           | Min      | Max      | Avg      |
-|───────────|──────────|──────────|──────────|
-| Extension | 0.015490 | 0.057620 | 0.018237 |
-|───────────|──────────|──────────|──────────|
-| Generator | 0.006858 | 0.018640 | 0.008473 |
-|───────────|──────────|──────────|──────────|
-| (E/G)%    | 225.86%  | 309.12%  | 215.24%  |
+| (E/G)%    | 43.04%   | 64.88%   | 43.39%   |
 └───────────┴──────────┴──────────┴──────────┘
 ```
 ### Problems
@@ -350,19 +199,14 @@ $context = new Context(function () {
 
 $context->resume();
 ```
-### Object must live while the context is called
-The following code will cause a coredump.
-```php
-<?php declare(strict_types=1);
-
-use Interposition\Context;
-
-(new Context(function () {}))->resume();
-```
 ### More
 In draft...
 
 ### Changelog
+## 0.1.1
+-- Fix coredump when calling the resume method on the object that is destroyed before the context change.
+-- Reality-based tests.
+
 ## 0.1.0
 - First version of the worked extension.
 - Basic tests.

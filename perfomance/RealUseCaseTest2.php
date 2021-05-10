@@ -2,25 +2,13 @@
 
 namespace Interposition\Context\Test;
 
-
 use Interposition\Context;
 
 class RealUseCaseTest2 extends Test
 {
-    private int $count;
-
-    public function __construct(int $count)
-    {
-        if($count < 1){
-            throw new \InvalidArgumentException('Count must be above or equal 1.');
-        }
-
-        $this->count = $count;
-    }
-
     public function getName(): string
     {
-        return 'Real use test. Create object.';
+        return 'Real use test. Execute coroutine (cycle). Switches count: '.$this->count.'.';
     }
 
     public function getDescription(): string
@@ -34,14 +22,15 @@ class RealUseCaseTest2 extends Test
         $count = $this->count;
 
         $obj = new Context(function () use($count) {
-            while ($count){
-                $r = Context::suspend($count);
-                $count--;
+            while ($count--){
+                $in = Context::suspend($count);
             }
         });
 
+        $i = 0;
+
         while (!$obj->finished()){
-            $r = $obj->resume($count--);
+            $out = $obj->resume($i++);
         }
     }
 
@@ -50,14 +39,15 @@ class RealUseCaseTest2 extends Test
         $count = $this->count;
 
         $obj = new GenContext((function () use($count) {
-            while ($count){
-                $r = yield $count;
-                $count--;
+            while ($count--){
+                $in = yield $count;
             }
         })());
 
+        $i = 0;
+
         while (!$obj->finished()){
-            $r = $obj->resume($count--);
+            $out = $obj->resume($i++);
         }
     }
 }
